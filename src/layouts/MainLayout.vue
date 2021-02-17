@@ -3,24 +3,33 @@
     <q-layout view="hHh lpR fFf">
       <q-header bordered class="bg-primary text-white">
         <q-toolbar>
-          <q-btn dense flat round icon="menu" @click="left = !left" />
+          <q-btn
+            dense
+            flat
+            round
+            icon="menu"
+            @click="drawerLeft = !drawerLeft"
+          />
 
           <q-toolbar-title>
-            <q-avatar>
-              <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg" />
-            </q-avatar>
             QuickTools
           </q-toolbar-title>
+
+          <q-btn
+            flat
+            round
+            @click="$q.dark.toggle()"
+            :icon="$q.dark.isActive ? 'nights_stay' : 'wb_sunny'"
+          />
         </q-toolbar>
       </q-header>
 
       <q-drawer
-        v-model="drawer"
+        v-model="drawerLeft"
         show-if-above
         :width="200"
         :breakpoint="500"
         bordered
-        content-class="bg-grey-3"
       >
         <q-scroll-area class="fit">
           <q-list>
@@ -45,7 +54,7 @@
         </q-scroll-area>
       </q-drawer>
 
-      <q-page-container>
+      <q-page-container style="">
         <q-page padding>
           <router-view />
         </q-page>
@@ -62,6 +71,11 @@ const menuList = [
     separator: true
   },
   {
+    label: "Json Validator/Formatter",
+    path: "/jsonValidator",
+    separator: true
+  },
+  {
     icon: "help",
     label: "About",
     path: "/about",
@@ -72,7 +86,8 @@ const menuList = [
 export default {
   data() {
     return {
-      drawer: false,
+      drawerLeft: false,
+      darkMode: false,
       menuList
     };
   }

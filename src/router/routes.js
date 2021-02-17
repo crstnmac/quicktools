@@ -9,6 +9,10 @@ const routes = [
         component: () => import("components/EpochConverter.vue")
       },
       {
+        path: "jsonValidator",
+        component: () => import("components/JsonValidator.vue")
+      },
+      {
         path: "about",
         component: () => import("components/About.vue")
       }

@@ -12,7 +12,7 @@
         color="primary"
       ></q-btn>
 
-      <q-btn @click="clear" label="Clear" color="primary"></q-btn>
+      <q-btn @click="clear" label="Clear" color="secondary"></q-btn>
 
       <q-btn
         v-if="dateString || epochValue"
@@ -40,6 +40,7 @@
             <q-popup-proxy transition-show="scale" transition-hide="scale">
               <q-time
                 v-model="dateString"
+                with-seconds
                 mask="ddd,DD MMM YYYY HH:mm:ss"
                 format24h
               >
@@ -116,6 +117,14 @@
           />
         </template>
       </q-input>
+      <br />
+      <q-input
+        v-model="leapYear"
+        outlined
+        id
+        label="Is a leap year?"
+        type="text"
+      />
     </div>
   </div>
 </template>
@@ -132,7 +141,8 @@ export default {
       dayOfTheYear: "",
       weekNumber: "",
       unixTime: "",
-      dateString: ""
+      dateString: "",
+      leapYear: ""
     };
   },
   methods: {
@@ -150,6 +160,11 @@ export default {
       const weekOfTheYear = Math.ceil(dayOTY / 7);
       console.log(this.dateString);
 
+      const ily = function(yr) {
+        return !(yr % 4 || (!(yr % 100) && yr % 400));
+      };
+
+      this.leapYear = ily(date.getFullYear()).toString();
       this.localTime = date.toLocaleString();
       this.gmtTime = date.toUTCString();
       this.dayOfTheYear = dayOTY.toString();
@@ -168,13 +183,16 @@ export default {
       this.weekNumber = "";
       this.unixTime = "";
       this.dateString = "";
+      this.leapYear = "";
     },
     copyToClip(text) {
       copyToClipboard(text)
         .then(() => {
           this.$q.notify({
             type: "positive",
-            message: `Copied to clipboard`
+            message: `Copied to clipboard`,
+            textColor: "black",
+            badgeTextColor: "black"
           });
 
           console.log("copied to clipboard!!");
