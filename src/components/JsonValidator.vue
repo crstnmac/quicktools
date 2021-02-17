@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="full-width row wrap justify-start items-start content-start">
-      <div class="q-pa-md col-6 col-md-6 items-stretch ">
+      <div class="q-pa-md col-lg-6 col-xs-12 items-stretch ">
         <div class="q-pa-sm q-gutter-sm">
           <q-btn
             @click="clear"
@@ -18,6 +18,7 @@
             filled
             type="textarea"
             rows="25"
+            class="full-width"
           />
         </div>
         <div class="q-pa-sm">
@@ -37,7 +38,7 @@
         </div>
       </div>
 
-      <div class="q-pa-md col-6 col-md-6 items-stretch">
+      <div class="q-pa-md  col-lg-6 col-xs-12 items-stretch">
         <div class="q-pa-sm q-gutter-sm">
           <q-btn
             @click="copyToClip(prettyJson)"
