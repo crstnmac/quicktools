@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>Hello</p>
+    <p>Quick Tools by Criston Mascarenhas</p>
   </div>
 </template>
 

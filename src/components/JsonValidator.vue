@@ -2,31 +2,55 @@
   <div>
     <div class="full-width row wrap justify-start items-start content-start">
       <div class="q-pa-md col-6 col-md-6 items-stretch ">
-        <q-input
-          v-model="uglyJson"
-          ref="jsonText"
-          placeholder="paste or type JSON here..."
-          filled
-          type="textarea"
-          rows="25"
-        />
-        <q-chip
-          color="teal"
-          v-if="!jsonError"
-          text-color="white"
-          icon="bookmark"
-        >
-          Valid JSON ✔
-        </q-chip>
-        <div
-          class="text-weight-medium  text-negative"
-          v-if="uglyJson && jsonError"
-        >
-          Error: {{ jsonError }}
+        <div class="q-pa-sm q-gutter-sm">
+          <q-btn
+            @click="clear"
+            label="Clear"
+            color="secondary"
+            class="q-mb-sm"
+          ></q-btn>
+        </div>
+        <div class="q-pa-sm">
+          <q-input
+            v-model="uglyJson"
+            ref="jsonText"
+            placeholder="paste or type JSON here..."
+            filled
+            type="textarea"
+            rows="25"
+          />
+        </div>
+        <div class="q-pa-sm">
+          <q-chip
+            color="teal"
+            v-if="!jsonError"
+            text-color="white"
+            icon="bookmark"
+          >
+            Valid JSON ✔
+          </q-chip>
+        </div>
+        <div class="q-pa-sm">
+          <q-banner v-if="uglyJson && jsonError" class="text-white bg-red">
+            {{ jsonError }}
+          </q-banner>
         </div>
       </div>
-      <div class="q-pa-md col-6 col-md-6  items-stretch">
-        <json-tree :raw="prettyJson" />
+
+      <div class="q-pa-md col-6 col-md-6 items-stretch">
+        <div class="q-pa-sm q-gutter-sm">
+          <q-btn
+            @click="copyToClip(prettyJson)"
+            label="Copy Json"
+            icon="content_copy"
+            color="secondary"
+            class="q-mb-sm"
+            v-if="prettyJson"
+          ></q-btn>
+        </div>
+        <div class="q-pa-sm">
+          <json-tree ref="jsonTree" :data="jsonTreeData" :raw="prettyJson" />
+        </div>
       </div>
     </div>
   </div>
@@ -34,6 +58,7 @@
 
 <script>
 import JsonTree from "vue-json-tree";
+import { copyToClipboard } from "quasar";
 
 export default {
   components: {
@@ -42,9 +67,11 @@ export default {
   data() {
     return {
       uglyJson: "",
-      jsonError: ""
+      jsonError: "",
+      jsonTreeData: "Add json data to the input field"
     };
   },
+
   computed: {
     prettyJson() {
       //reset error
@@ -56,6 +83,7 @@ export default {
         jsonValue = JSON.parse(this.uglyJson);
       } catch (e) {
         this.jsonError = JSON.stringify(e.message); // eslint-disable-line
+
         var textarea = this.$refs.jsonText;
         if (this.jsonError.indexOf("position") > -1) {
           // highlight error position
@@ -70,6 +98,47 @@ export default {
         return "";
       }
       return JSON.stringify(jsonValue, null, 2);
+    }
+  },
+  methods: {
+    copyToClip(text) {
+      copyToClipboard(text)
+        .then(() => {
+          this.$q.notify({
+            type: "positive",
+            message: `Copied to clipboard`,
+            textColor: "black",
+            badgeTextColor: "black"
+          });
+
+          console.log("copied to clipboard!!");
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    clear() {
+      const jsonT = this.$refs.jsonTree;
+      jsonT.$props.raw = "";
+      this.uglyJson = "";
+    },
+    pasteCapture(evt) {
+      if (evt.target.nodeName === "INPUT") return;
+      let text, onPasteStripFormattingIEPaste;
+      evt.preventDefault();
+      if (evt.originalEvent && evt.originalEvent.clipboardData.getData) {
+        text = evt.originalEvent.clipboardData.getData("text/plain");
+        this.$refs.jsonText.runCmd("insertText", text);
+      } else if (evt.clipboardData && evt.clipboardData.getData) {
+        text = evt.clipboardData.getData("text/plain");
+        this.$refs.jsonText.runCmd("insertText", text);
+      } else if (window.clipboardData && window.clipboardData.getData) {
+        if (!onPasteStripFormattingIEPaste) {
+          onPasteStripFormattingIEPaste = true;
+          this.$refs.jsonText.runCmd("ms-pasteTextOnly", text);
+        }
+        onPasteStripFormattingIEPaste = false;
+      }
     }
   }
 };
