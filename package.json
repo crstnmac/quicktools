@@ -14,7 +14,11 @@
     "axios": "^0.18.1",
     "core-js": "^3.6.5",
     "quasar": "^1.0.0",
-    "vue-json-tree": "^0.4.3"
+    "vue-json-tree": "^0.4.3",
+    "jwk-to-pem": "^2.0.4",
+    "jws": "^4.0.0",
+    "qs": "^6.9.6",
+    "vue-json-pretty": "^1.7.1"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",

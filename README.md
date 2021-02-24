@@ -4,7 +4,7 @@ Devtools for productive workflow.
 
 - [x] Unix time converter
 - [x] Json Validator and Json tree
-- [ ] JWT debugger
+- [x] JWT debugger
 - [ ] base64 encoder/decoder
 - [ ] UUID generator/decoder
 

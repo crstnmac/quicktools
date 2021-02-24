@@ -76,6 +76,11 @@ const menuList = [
     separator: true
   },
   {
+    label: "JWT Debugger",
+    path: "/jwtDebugger",
+    separator: true
+  },
+  {
     icon: "help",
     label: "About",
     path: "/about",
