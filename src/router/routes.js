@@ -6,15 +6,19 @@ const routes = [
     children: [
       {
         path: "epochConverter",
-        component: () => import("components/EpochConverter.vue")
+        component: () => import("pages/EpochConverter.vue")
       },
       {
         path: "jsonValidator",
-        component: () => import("components/JsonValidator.vue")
+        component: () => import("pages/JsonValidator.vue")
+      },
+      {
+        path: "jwtDebugger",
+        component: () => import("pages/JwtDebugger.vue")
       },
       {
         path: "about",
-        component: () => import("components/About.vue")
+        component: () => import("pages/About.vue")
       }
     ]
   },
