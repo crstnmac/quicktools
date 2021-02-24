@@ -165,9 +165,9 @@ export default {
     shareWebLink() {
       var shareUrl;
       if (this.hasJwksKey && this.jwksKey) {
-        shareUrl = `http://localhost:8080/jwtDebugger#token=${this.token}&jwks=${this.jwksUri}`;
+        shareUrl = `https://quicktools.vercel.app/jwtDebugger#token=${this.token}&jwks=${this.jwksUri}`;
       } else {
-        shareUrl = `http://localhost:8080/jwtDebugger#token=${this.token}`;
+        shareUrl = `https://quicktools.vercel.app/jwtDebugger#token=${this.token}`;
       }
       copyToClipboard(shareUrl).then(() => {
         this.$q.notify("Link copied");
